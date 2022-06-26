@@ -29,3 +29,22 @@ E.g
 
 
 ## The same is applicable to the Currency route
+
+## Currency
+
+/api/currencies -  This endpoint fetches the first 10 records from the database
+ 
+# pagination
+/api/currencies?page=1 - fetches the first 10 records
+
+/api/currencies?page=2 - fetches from 10 - 20 
+
+/api/currencies?page=3 - fetches from 20 - 30 
+
+
+# search
+iso_code,iso_numeric_code,common_name,official_name,symbol
+
+one or more  of the above can be added as query parameter for search
+E.g 
+/api/currencies?continent_code=NA&currency_code=IS
