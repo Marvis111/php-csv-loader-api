@@ -80,7 +80,7 @@ public  function getResult(){
 public function find(){
     $sql = "SELECT * FROM ".$this->table;
     $urlComponents = parse_url($_SERVER['REQUEST_URI']);
-
+    $limit;
     $query = $urlComponents['query'] ?? null;
 
     parse_str($query,$params);
@@ -110,9 +110,10 @@ public function find(){
                 $sql .= " LIMIT $limit";
                }else {
                 $sql .= " LIMIT 10";
+                $limit = 10;
                }
                return json_encode(
-                ['status'=>'success','return'=>"First 10 was fetcted",
+                ['status'=>'success','return'=>"First $limit was fetcted",
                 'data' => $this->query($sql)->getResult()
                 ]
             );
