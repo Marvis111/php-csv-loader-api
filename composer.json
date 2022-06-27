@@ -18,6 +18,6 @@
         }
     },
     "scripts": {
-        "test": "phpunit tests\\test.php"
+        "test": "phpunit tests\\country.php"
       }
 }
