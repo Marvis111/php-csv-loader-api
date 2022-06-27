@@ -17,6 +17,8 @@ class Currency extends Database {
 
     }
 
+    
+
 
     public  function loadCurrencyIntoDb($CurrencycsvFile){
         $currencyData = [];

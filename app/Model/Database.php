@@ -23,6 +23,7 @@ class Database {
     protected  $result;
 
 
+    
   public function connect(){
 
     $conn = mysqli_connect($this->servername,$this->username,$this->password,$this->dbname);
@@ -38,8 +39,30 @@ class Database {
   }
 
   public  function query($sql){
+
     $query = mysqli_query($this->connection,$sql);
-   return  $this->setResult($query);
+    
+    if ($query) {
+        # code..
+        if (mysqli_num_rows($query) != 0) {
+            # code...
+            return  $this->setResult($query);
+        }else{
+                $res;
+                    if ($this->table =='currency') {
+                        $CurrencycsvFile = __DIR__ . '/../../assets/currencies.csv';
+                       $res =  $this->loadCurrencyIntoDb($CurrencycsvFile);
+                    }else{
+                        $CountrycsvFile = __DIR__ . '/../../assets/countries.csv';
+                        $res =  $this->loadCSVDataIntoDb($CountrycsvFile);
+                    }
+
+            return $res == true ?? $this->query($sql);
+                
+             
+        }
+    }
+   
   
 }
 
@@ -76,8 +99,10 @@ public  function getResult(){
    }
 
 }
+//loadCurrencyIntoDb($CurrencycsvFile)
 
 public function find(){
+
     $sql = "SELECT * FROM ".$this->table;
     $urlComponents = parse_url($_SERVER['REQUEST_URI']);
     $limit;
@@ -112,11 +137,13 @@ public function find(){
                 $sql .= " LIMIT 10";
                 $limit = 10;
                }
+
                return json_encode(
                 ['status'=>'success','return'=>"First $limit was fetcted",
                 'data' => $this->query($sql)->getResult()
                 ]
             );
+
 
             } catch (\Throwable $th) {
                 return json_encode(
